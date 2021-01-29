@@ -25,7 +25,7 @@ picom --experimental-backends --opacity-rule "80:class_g = 'URxvt'" -cCGfF -o 0.
 #    --alpha 0 \
 #    --tint 0xc3cdc8 &
 #stalonetray &
-xmodmap -e 'keycode 66 = Escape'
+#xmodmap -e 'keycode 66 = Escape'
 
 
 

@@ -1,6 +1,4 @@
-# Sxhkd configuration
-##########################
-
+# Main and float terminal
 super + {_,shift + } Return
     {$TERMINAL, $TERMFLOAT}
 
@@ -46,7 +44,6 @@ super + shift + x
 
 
 # Xmonad (wm) related shortcuts
-################################
 
 # Kill window
 super + q
@@ -79,8 +76,8 @@ super + shift + m
 ################################################
 
 # On/off transparency, pavucontrol
-#alt + {a,b}
- #  {tdrop -ma -w 1916 -y 0 pavucontrol, toggleprogram "picom -b"}
+alt + b
+   toggleprogram "picom -b"
 
 ##############################################
         # FUNCTION KEYS#
@@ -123,4 +120,8 @@ alt + {Up,Down}
 F12
    amixer set Master toggle
 
+#F1
+#  tdrop -ma -w 1916 -y 0 $TERMFLOAT -name 'scratchpad' -e htop
 
+alt + a
+ tdrop -ma -w 1916 -y 0 alacritty
