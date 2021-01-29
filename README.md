@@ -1,1 +1,2 @@
-#magyarch-xmonad-polybar
+# xmonad-dynamic-polybar
+my config

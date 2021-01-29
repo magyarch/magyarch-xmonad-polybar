@@ -15,18 +15,20 @@ import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.Minimize
 import XMonad.Hooks.EwmhDesktops
+import XMonad.Hooks.UrgencyHook
+--import XMonad.Actions.CycleWS
 
 --LAYOUT
 import XMonad.Layout.Spacing
 import XMonad.Layout.Fullscreen (fullscreenFull)
 import XMonad.Layout.Grid
-import XMonad.Layout.Tabbed 
+import XMonad.Layout.Tabbed
 import XMonad.Layout.TwoPane
-import XMonad.Layout.NoBorders (noBorders, smartBorders) 
+import XMonad.Layout.NoBorders (noBorders, smartBorders)
 import XMonad.Layout.Gaps
 import XMonad.Layout.MultiToggle
 import XMonad.Layout.MultiToggle.Instances
-import XMonad.Layout.DecorationMadness 
+import XMonad.Layout.DecorationMadness
 import XMonad.Layout.LayoutCombinators
 
 --UTILS
@@ -83,8 +85,8 @@ myFocusedBorderColor = "#2e8b57"
 
 myLayout = avoidStruts $ smartBorders $ spacingRaw True (Border 0 5 5 5) True (Border 5 5 5 5) True $ gaps [(U,5), (D,5), (R,5), (L,5)] $
 
-           mkToggle (NBFULL ?? NOBORDERS ?? EOT) 
-           
+           mkToggle (NBFULL ?? NOBORDERS ?? EOT)
+
            tiled ||| Mirror tiled ||| twopane ||| Grid ||| tabbed shrinkText myTabConfig ||| Full
 
      where
@@ -115,17 +117,17 @@ myTabConfig = defaultTheme {
     inactiveTextColor = "#c3cdc8",
     inactiveColor = "#2f2b26"
 }
-                  
+
 ------------------------------------------------------------------------------
 -- SCRATCHPAD
 
 myScratchPads :: [NamedScratchpad]
 myScratchPads = [
-    NS "scratchpad" "urxvt -name scratchpad" (resource =? "scratchpad")
+    NS "scratchpad" "alacritty --class=scratchpad -t scratchpad" (title =? "scratchpad")
         (customFloating $ W.RationalRect (1/4) (1/4) (2/4) (2/4)),
 
-    NS "ncmpcpp" "urxvt -name 'ncmpcpp' -e ncmpcpp" (resource =? "ncmpcpp")
-        (customFloating $ W.RationalRect (1/4) (1/4) (2/4) (2/4)),    
+    NS "ncmpcpp" "alacritty --class=scratchpad -t ncmpcpp -e ncmpcpp" (title =? "ncmpcpp")
+        (customFloating $ W.RationalRect (1/4) (1/4) (2/4) (2/4)),
 
     NS "pavucontrol" "pavucontrol" (className =? "Pavucontrol")
         (customFloating $ W.RationalRect (1/4) (1/4) (2/4) (2/4))
@@ -133,17 +135,20 @@ myScratchPads = [
 
 
 
-
+----------------------------------------------------------------------
 
 -- WORKSPACES
 
-myWorkspaces    = ["\61612","\61899","\61947","\61635","\61502","\61501","\61705","\61564","\62150","\61872"]
+myWorkspaces    = clickable $ ["\61612","\61899","\61947","\61635","\61502","\61501","\61705","\61564","\62150","\61872"]
 
+        where
+                  clickable l = [ "%{A1:xdotool key super+" ++ show n ++ " &:}" ++ ws ++ "%{A-}" | (i, ws) <- zip [1..9] l, let n = i ] 
+----------------------------------------------------------------------
 
 -- HOOKS
 
 myManageHook :: XMonad.Query (Data.Monoid.Endo WindowSet)
-myManageHook = composeAll . concat $ 
+myManageHook = composeAll . concat $
     [ [isDialog --> doCenterFloat]
     , [isFullscreen --> (doF W.focusDown <+> doFullFloat)]
     , [title =? "calcurse"  --> doFloat]
@@ -152,32 +157,70 @@ myManageHook = composeAll . concat $
     , [resource =? "desktop_window" --> doIgnore]
     , [resource =? "sxiv" --> doCenterFloat]
     , [className =? "Lxappearance" --> doCenterFloat]
-    , [className =? "Pavucontrol" --> doCenterFloat]
+    --, [className =? "Pavucontrol" --> doCenterFloat]
     , [className =? "MEGAsync" --> doCenterFloat]
     --, [className =? "URxvt" --> doCenterFloat]
     , [className =? "Zathura" --> doCenterFloat]
-    , [className =? "Brave-browser" --> doShift (myWorkspaces !! 0) <+> viewShift (myWorkspaces !! 0)]        
-    , [className =? "discord" --> doShift (myWorkspaces !! 1) <+> viewShift (myWorkspaces !! 1)]        
-    , [className =? "Subl3"  --> doShift (myWorkspaces !! 2) <+> viewShift (myWorkspaces !! 2)]        
-    , [className =? "Gimp" --> doShift (myWorkspaces !! 3) <+> viewShift (myWorkspaces !! 3)]        
-    , [className =? "Vlc" --> doShift (myWorkspaces !! 4) <+> viewShift (myWorkspaces !! 4)]        
-    , [className =? "mpv" --> doCenterFloat <+> doShift (myWorkspaces !! 5) <+> viewShift (myWorkspaces !! 5)]        
-    , [className =? "Virtualbox" --> doShift (myWorkspaces !! 6) <+> viewShift (myWorkspaces !! 6)]        
-    , [className =? "Pcmanfm" --> doShift (myWorkspaces !! 7) <+> viewShift (myWorkspaces !! 7)]        
-    , [className =? "mkvtoolnix-gui" --> doShift (myWorkspaces !! 8) <+> viewShift (myWorkspaces !! 8)]      
+    , [className =? "Brave-browser" --> doShift (myWorkspaces !! 0) <+> viewShift (myWorkspaces !! 0)]
+    , [className =? "discord" --> doShift (myWorkspaces !! 1) <+> viewShift (myWorkspaces !! 1)]
+    , [className =? "Subl3"  --> doShift (myWorkspaces !! 2) <+> viewShift (myWorkspaces !! 2)]
+    , [className =? "Gimp" --> doShift (myWorkspaces !! 3) <+> viewShift (myWorkspaces !! 3)]
+    , [className =? "Vlc" --> doShift (myWorkspaces !! 4) <+> viewShift (myWorkspaces !! 4)]
+    , [className =? "mpv" --> doCenterFloat <+> doShift (myWorkspaces !! 5) <+> viewShift (myWorkspaces !! 5)]
+    , [className =? "Virtualbox" --> doShift (myWorkspaces !! 6) <+> viewShift (myWorkspaces !! 6)]
+    , [className =? "Pcmanfm" --> doShift (myWorkspaces !! 7) <+> viewShift (myWorkspaces !! 7)]
+    , [className =? "mkvtoolnix-gui" --> doShift (myWorkspaces !! 8) <+> viewShift (myWorkspaces !! 8)]
     ] where viewShift = doF . liftM2 (.) W.greedyView W.shift
+
+-----------------------------------------------------------------------
+
+-- Colours on bar
+
+green     = "#2e8b57"
+red       = "#fb4934"
+yellow    = "#fabd2f"
+blue      = "#83a598"
+white     = "#c3cdc8"
+
 
 
 ------------------------------------------------------------------------
 
-myEventHook = serverModeEventHook <+> serverModeEventHookCmd <+> serverModeEventHookF "XMONAD_PRINT" (io . putStrLn)  <+> ewmhDesktopsEventHook <+> fullscreenEventHook <+> docksEventHook <+> minimizeEventHook 
+myEventHook = serverModeEventHook <+> serverModeEventHookCmd <+> serverModeEventHookF "XMONAD_PRINT" (io . putStrLn)  <+> ewmhDesktopsEventHook <+> fullscreenEventHook <+> docksEventHook <+> minimizeEventHook
+
 ------------------------------------------------------------------------
 -- Status bars and logging
 
 -- Perform an arbitrary action on each internal state change or X event.
 -- See the 'XMonad.Hooks.DynamicLog' extension for examples.
 --
-myLogHook = return ()
+--myLogHook = return ()
+
+myLogHook :: D.Client -> PP
+myLogHook dbus = def
+    { ppOutput = dbusOutput dbus
+    , ppCurrent = wrap ("%{F" ++ green ++ "} ") " %{F-}"
+    , ppVisible = wrap ("%{F" ++ blue ++ "} ") " %{F-}"
+    , ppUrgent = wrap ("%{F" ++ red ++ "} ") " %{F-}"
+    , ppHidden = wrap " " " "
+    , ppWsSep = ""
+    , ppSep = " | "
+    }
+
+
+-- Emit a DBus signal on log updates
+dbusOutput :: D.Client -> String -> IO ()
+dbusOutput dbus str = do
+    let signal = (D.signal objectPath interfaceName memberName) {
+            D.signalBody = [D.toVariant $ UTF8.decodeString str]
+        }
+
+    D.emit dbus signal
+  where
+    objectPath = D.objectPath_ "/org/xmonad/Log"
+    interfaceName = D.interfaceName_ "org.xmonad.Log"
+    memberName = D.memberName_ "Update"
+
 
 ------------------------------------------------------------------------
 -- Startup hook
@@ -187,9 +230,10 @@ myLogHook = return ()
 -- per-workspace layout choices.
 --
 -- By default, do nothing.
-myStartupHook = do
-     spawnOnce "(sleep 1s && ~/.config/polybar/launch.sh) &"
-     spawnOnce "nm-applet &"
+myStartupHook = return ()
+--myStartupHook = do
+  --   spawnOnce "(sleep 1s && ~/.config/polybar/launch.sh) &"
+    -- spawnOnce "nm-applet &"
 
 ------------------------------------------------------------------------
 -- Command to launch the bar.
@@ -211,11 +255,12 @@ main = do
     D.requestName dbus (D.busName_ "org.xmonad.Log")
         [D.nameAllowReplacement, D.nameReplaceExisting, D.nameDoNotQueue]
 
-    xmonad $ ewmh $ docks $ defaults
+    xmonad $ ewmh $ docks $ defaults { logHook = dynamicLogWithPP (myLogHook dbus) }
 
 
 
-defaults = def { 
+
+defaults = def {
       -- simple stuff
         terminal           = myTerminal,
         focusFollowsMouse  = myFocusFollowsMouse,
@@ -232,9 +277,8 @@ defaults = def {
 
       -- hooks, layouts
         layoutHook         = myLayout,
-        manageHook         = (myManageHook <+> namedScratchpadManageHook myScratchPads),  
+        manageHook         = (myManageHook <+> namedScratchpadManageHook myScratchPads),
         handleEventHook    = myEventHook,
-        logHook            = myLogHook,
         startupHook        = myStartupHook
     }
 

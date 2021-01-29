@@ -79,8 +79,8 @@ super + shift + m
 ################################################
 
 # On/off transparency, pavucontrol
-alt + {a,b}
-   {tdrop -ma -w 1916 -y 0 pavucontrol, toggleprogram "picom -b"}
+#alt + {a,b}
+ #  {tdrop -ma -w 1916 -y 0 pavucontrol, toggleprogram "picom -b"}
 
 ##############################################
         # FUNCTION KEYS#
@@ -123,5 +123,4 @@ alt + {Up,Down}
 F12
    amixer set Master toggle
 
-F1 
- tdrop -ma -w 960 -h 600 -y 250 -x 480 lxappearance
+

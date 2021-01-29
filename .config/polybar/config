@@ -8,7 +8,7 @@ margin-bottom = 0
 ;https://github.com/jaagr/polybar/wiki/Configuration#application-settings
 throttle-output = 5
 throttle-output-for = 10
-throttle-input-for = 30
+#throttle-input-for = 30
 screenchange-reload = true
 compositing-background = over
 compositing-foreground = over
@@ -47,16 +47,20 @@ text = #99d1ce
 ################################################################################
 
 [bar/mainbar-xmonad]
-monitor = ${env:MONITOR}
+monitor = ${env:MONITOR:DisplayPort-0}
 ;monitor-fallback = HDMI1
 width = 100%
 height = 24
 offset-x = 0
 offset-y = 0
 radius = 0.0
-fixed-center = false
+fixed-center = true
 bottom = false
 ;separator = |
+
+enable-click = true
+enable-scroll = true
+reverse-scroll = true
 
 background = ${colors.background}
 foreground = ${colors.foreground}
@@ -65,7 +69,7 @@ line-size = 3
 line-color = #f00
 
 
-override-redirect = true
+#override-redirect = true
 
 
 ; Enable support for inter-process messaging
@@ -79,32 +83,31 @@ enable-ipc = true
 ;border-bottom-size = 3
 ;border-color = #2e8b57
 
-padding-left = 2
+padding-left = 0
 padding-right = 0
 
-module-margin-left = 2
+module-margin-left = 0
 module-margin-right = 0
 
 ;https://github.com/jaagr/polybar/wiki/Fonts
-font-0 = "Iosevka Nerd Font:size=12;1"
-font-1 = "JetBrains Mono:size=10;1"
-font-2 = "FontAwesome:size=13;1"
-font-3 = "Joy Pixels:scale=10;1"
+font-0 = "JetBrains Mono:size=10;1"
+font-1 = "FontAwesome:size=11;1"
+font-2 = "Joy Pixels:scale=10;1"
 
-modules-left = rofi ewmh xwindow
+modules-left = rofi xmonad
 modules-center = cpu-graph
-modules-right = itemp mem weather date pavolume power
+modules-right = itemp sep mem sep weather sep date sep pavolume sep power sep
 
 #tray-position = none
 
 tray-detached = false
 tray-offset-x = 0
 tray-offset-y = 0
-tray-padding = 2
+tray-padding = 1
 tray-maxsize = 24
 tray-scale = 1.0
 tray-position = right
-tray-background = ${colors.foreground}
+tray-background = ${colors.background}
 
 
 # scroll-up = bspwm-desknext
@@ -113,75 +116,17 @@ tray-background = ${colors.foreground}
 
 ################################################################################
 ################################################################################
-############                       MODULE BSPWM                     ############
+############                       MODULE XMONAD                    ############
 ################################################################################
 ################################################################################
 
+[module/xmonad]
+type = custom/script
+exec = xmonad-log
+format-foreground = ${colors.foreground}
+format-background = ${colors.background}
 
-
-[module/bspwm]
-type = internal/bspwm
-
-ws-icon-0 = 1;
-ws-icon-1 = 2;
-ws-icon-2 = 3;
-ws-icon-3 = 4;
-ws-icon-4 = 5;
-ws-icon-5 = 6;
-ws-icon-6 = 7;
-ws-icon-7 = 8;
-ws-icon-8 = 9;
-ws-icon-9 = 10;
-;ws-icon-default = 
-
-
-format = <label-state> <label-mode>
-
-label-focused = %name%
-label-focused-background = ${colors.background}
-label-focused-underline= ${colors.foreground-alt}
-label-focused-padding = 1
-label-focused-foreground = ${colors.foreground-alt}
-
-label-occupied = %name%
-label-occupied-padding = 1
-label-occupied-background = ${colors.background}
-label-occupied-foreground = ${colors.alert}
-label-occupied-underline = ${colors.alert}
-
-label-urgent = %icon%
-label-urgent-padding = 1
-label-urgent-foreground = #ffffff
-
-label-empty = %name%
-label-empty-foreground = ${colors.foreground}
-label-empty-padding = 1
-label-empty-background = ${colors.background}
-
-
-label-monocle = "[  ]"
-label-monocle-foreground = ${colors.foreground}
-label-tiled = "[  ]"
-label-tiled-foreground = ${colors.foreground}
-label-fullscreen = "[  ]"
-label-fullscreen-foreground = ${colors.foreground}
-label-floating = "[  ]"
-label-floating-foreground = ${colors.foreground}
-label-pseudotiled = "[  ]"
-label-pseudotiled-foreground = ${colors.foreground}
-label-locked = "[  ]"
-label-locked-foreground = ${colors.foreground}
-label-sticky = "[  ]"
-label-sticky-foreground = ${colors.foreground}
-label-private =  "[  ]"
-label-private-foreground = ${colors.foreground}
-
-; Separator in between workspaces
-;label-separator = |
-;label-separator-padding = 10
-;label-separator-foreground = #ffb52a
-
-
+tail = true
 
 
 ################################################################################
@@ -221,22 +166,14 @@ format-foreground = ${colors.foreground}
 ;format-underline = ${colors.foreground-alt}
 format-padding = 2
 
-
-[module/weather]
-type = custom/script
-exec = $HOME/.local/bin/statusbar/weather
-format-foreground = ${colors.foreground}
-format-background = #668bd7
-format-padding = 1
-tail = true
-
+#####Sripts from .local/bin#############
 
 [module/mem]
 type = custom/script
 exec = ~/.local/bin/statusbar/memory
 format-foreground = ${colors.foreground}
-format-background = #7851a9
-format-padding = 1
+format-background = ${colors.background}
+format-padding = 0
 interval = 1
 format-prefix = "💡 "
 
@@ -252,27 +189,13 @@ format-underline = #268bd2
 format-background = ${colors.background}
 format-padding = 1
 
-[module/temperature]
-type = internal/temperature
-thermal-zone = 0
-warn-temperature = 75
-
-format = <ramp> <label>
-format-warn = <ramp> <label-warn>
-
-label = %temperature-c%
-label-warn = %temperature-c%
-label-warn-foreground = #fd0073
-;label-warn-background = ${colors.background}
-
-
-ramp-0 = 
-ramp-1 = 
-ramp-2 = 
-ramp-foreground = ${colors.foreground}
+[module/weather]
+type = custom/script
+exec = $HOME/.local/bin/statusbar/weather
 format-foreground = ${colors.foreground}
 format-background = ${colors.background}
-format-padding = 2
+format-padding = 0
+tail = true
 
 
 
@@ -307,9 +230,6 @@ label = Cpu %percentage:3%%
 
 ################################################################################
 
-
-
-#################################################################
 
 [module/ewmh]
 type = internal/xworkspaces
@@ -352,7 +272,9 @@ label-empty-padding = 2
 format-foreground = ${colors.foreground}
 format-background = ${colors.background}
 
-################################################################################
+
+
+######Built in modules###############################################
 
 [module/kernel]
 type = custom/script
@@ -365,11 +287,6 @@ format-background = ${colors.background}
 format-prefix = " ⛵ "
 format-prefix-foreground = #eeba30
 ;format-underline = #eeba30
-
-
-
-
-################################################################################
 
 
 [module/cpu]
@@ -399,7 +316,7 @@ label = %percentage_used%%
 [module/sep]
 ; alternative separator
 type = custom/text
-content = " | "
+content = "|"
 content-foreground = ${colors.foreground}
 content-background =  ${colors.background}
 
@@ -426,7 +343,7 @@ exec = sensors | awk  '/Core 0/ {print $3}'
 interval = 2
 format-padding = 1
 format-foreground = ${colors.foreground}
-format-background = ${colors.alert}
+format-background = ${colors.background}
 ;format-underline = #C1B93E
 format-prefix-foreground = #c3cdc8
 label =   %output%
@@ -515,9 +432,8 @@ format-foreground = ${colors.foreground}
 format-background = ${colors.background}
 format-padding = 2
 
-#########################################################################
-#       Clickable modules/Klikkelhető modulok            #
-######################################################################
+
+#######Clickable modules/Klikkelhető modulok#######################
 
 [module/firefox]
 type = custom/text
@@ -581,11 +497,11 @@ click-left  = pcmanfm &
 [module/power]
 type = custom/text
 content = 
-content-foreground = ${colors.background}
-content-background = ${colors.foreground}
+content-foreground = ${colors.foreground}
+content-background = ${colors.background}
 ;format-foreground = ${colors.foreground}
 ;format-background = ${colors.background}
-content-padding = 2
+content-padding = 0
 
 click-left = power
 
@@ -595,17 +511,20 @@ type = custom/text
 content = 
 content-foreground = ${colors.foreground}
 content-background = ${colors.background}
-content-padding = 2
+content-padding = 1
 
-click-left = zathura $HOME/.local/share/Magyarch-bspwm.pdf &
+click-left = zathura $HOME/.local/share/Magyarch-xmonad.pdf &
 
 
 [module/rofi]
 type = custom/text
-content = xmonad #
-content-foreground = ${colors.foreground}
-content-background = #7A2f2b26
-content-padding = 2
+content = "Xmonad"
+content-padding = 1
+content-foreground = #2f2b26
+;content-background = #ffa500
+content-background = 2e8b57
+content-overline = #2f2b26
+content-underline = #2f2b26
 
 click-left = rofi -modi run,drun -show drun -location 1 -xoffset 10 -yoffset 23 -line-padding 4 -columns 1 -width 15 -lines 20 -padding 15 -hide-scrollbar -show-icons -drun-icon-theme
 
@@ -615,12 +534,13 @@ type = custom/script
 tail = true
 label = %output%
 exec = $HOME/.local/bin/statusbar/volume &
-click-left = exec pavucontrol
 format-foreground = ${colors.foreground}
-format-prefix-foreground = #8d0000
-format-background = ${colors.foreground-alt}
-format-padding = 2
+format-background = ${colors.background}
+
+format-padding = 0
 interval = 1
+
+click-left = exec pavucontrol
 
 
 [module/date]
@@ -630,9 +550,9 @@ exec = ~/.local/bin/statusbar/clock
 click-left = $TERMFLOAT -g 70x20-30+30 -e calcurse
 click-right = killall -9 calcurse &
 format-foreground = ${colors.foreground}
-format-background = #8d0000
-format-padding = 2
-format-prefix = " 📅  "
+format-background = ${colors.background}
+format-padding = 0
+format-prefix = "📅 "
 interval=30
 
 [module/arrow1]
@@ -669,6 +589,27 @@ content = "%{T2} %{T-}"
 content-font = 2
 content-foreground = #668bd7
 content-background = #2e8b57
+
+[module/easteregg-pornhub]
+type = custom/script
+exec = echo " hub "
+interval = 3600
+
+click-left = "$BROWSER --private https://www.pornhub.com/ &"
+
+format = <label>
+format-prefix = "  Porn "
+format-prefix-foreground = #ffffff
+format-prefix-background = #2f2b26
+
+format-overline = #000000
+format-underline = #000000
+format-foreground = #000000
+format-background = #ffa500
+
+format-suffix = " "
+format-suffix-background = #000000
+format-suffix-foreground = #000000
 
 
 
