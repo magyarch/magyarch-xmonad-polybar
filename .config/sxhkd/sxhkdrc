@@ -4,7 +4,7 @@ super + {_,shift + } Return
 
 # Dmenu2 and rofi(window switcher, application launcher)
 super + {_,shift +} d
-    {dmenu_run -i -p 'Search' -nb '#2f2b26' -sb '#2e8b57' -fn 'JetBrains Mono Medium-12' -w '760' -h '24' -x '574' -y '48',rofi_run -r}
+    {dmenu_run -i -p 'Search' -nb '#2f2b26' -sb '#2e8b57' -fn 'JetBrains Mono Nerd Font-12' -w '760' -h '24' -x '574' -y '48',rofi_run -r}
 
 # Tui filemanager and same command with sudo
 super + {_,shift + } r
@@ -20,11 +20,11 @@ super + {_,shift + } e
 
 # S,R,lock script,calendar app
 super + {_,shift + } c
-    {power, $TERMFLOAT -g 70x20-16+30 -e calcurse}
+    {power, rofi_run -w}
 
 # Default web browser brave and firefox
 super + {_,shift + } w
-    {$BROWSER, firefox}
+    {$BROWSER, rofi_run -b}
 
 # Chat client, gui filemanager
 super + {_,shift + } p
@@ -76,8 +76,9 @@ super + shift + m
 ################################################
 
 # On/off transparency, pavucontrol
-alt + b
-   toggleprogram "picom -b"
+alt + a
+   pavucontrol
+
 
 ##############################################
         # FUNCTION KEYS#
@@ -120,8 +121,4 @@ alt + {Up,Down}
 F12
    amixer set Master toggle
 
-#F1
-#  tdrop -ma -w 1916 -y 0 $TERMFLOAT -name 'scratchpad' -e htop
 
-alt + a
- tdrop -ma -w 1916 -y 0 alacritty
