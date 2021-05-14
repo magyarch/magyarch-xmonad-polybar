@@ -142,7 +142,7 @@ myScratchPads = [
 myWorkspaces    = clickable $ ["\61612","\61899","\61947","\61635","\61502","\61501","\61705","\61564","\62150","\61872"]
 
         where
-                  clickable l = [ "%{A1:xdotool key super+" ++ show n ++ " &:}" ++ ws ++ "%{A-}" | (i, ws) <- zip [1..9] l, let n = i ] 
+                  clickable l = [ "%{A1:xdotool key super+" ++ show n ++ " &:}" ++ ws ++ "%{A}" | (i, ws) <- zip [1..9] l, let n = i ] 
 ----------------------------------------------------------------------
 
 -- HOOKS

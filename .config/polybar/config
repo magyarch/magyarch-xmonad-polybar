@@ -94,7 +94,7 @@ font-0 = "JetBrains Mono Nerd Font:size=10;2"
 font-1 = "FontAwesome:size=11;2"
 font-2 = "Joy Pixels:scale=10;2"
 
-modules-left = jgmenu ewmh
+modules-left = jgmenu xmonad
 modules-center = cpu-graph
 modules-right = itemp sep mem sep weather sep date sep pavolume sep power sep
 
