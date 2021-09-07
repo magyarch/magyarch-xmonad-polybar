@@ -28,8 +28,8 @@ format-offset =
 
 [colors]
 ; MagyArch theme ============
-background = #7a2f2b26
-;background = ${xrdb:background}
+;background = #7a2f2b26
+background = ${xrdb:background}
 foreground = ${xrdb:foreground}
 foreground-alt = ${xrdb:green}
 alert = #bf616a
