@@ -142,7 +142,7 @@ myScratchPads = [
 myWorkspaces    = clickable $ ["\61612","\61899","\61947","\61635","\61502","\61501","\61705","\61564","\62150","\61872"]
 
         where
-                  clickable l = [ "%{A1:xdotool key super+" ++ show n ++ " &:}" ++ ws ++ "%{A}" | (i, ws) <- zip [1..9] l, let n = i ] 
+                  clickable l = [ "%{A1:xdotool key super+" ++ show n ++ " &:}" ++ ws ++ "%{A}" | (i, ws) <- zip [1..9] l, let n = i ]
 ----------------------------------------------------------------------
 
 -- HOOKS
@@ -352,7 +352,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((modm              , xK_period), sendMessage (IncMasterN (-1)))
 
     -- Scratchpad keybinds
-    , ((modm .|. controlMask, xK_t), namedScratchpadAction myScratchPads "scratchpad")
+    , ((modm .|. shiftMask, xK_Return), namedScratchpadAction myScratchPads "scratchpad")
     , ((modm .|. controlMask, xK_h), namedScratchpadAction myScratchPads "pavucontrol")
     , ((modm .|. shiftMask, xK_n), namedScratchpadAction myScratchPads "ncmpcpp")
 
