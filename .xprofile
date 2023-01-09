@@ -1,24 +1,26 @@
 #!/bin/sh
 
+xrandr --dpi 156
+export GDK_SCALE=2
+#xmodmap .xmodmaprc
 setbg &		# Set the background
 sxhkd  &	# Bind keys
 xsetroot -cursor_name left_ptr &
 xset r rate 500 30 &	# Speed xrate up
 xset s off -dpms &
 unclutter &		# Remove mouse when idle
-#picom --experimental-backends --config ~/.config/picom.conf &		# picom for transparency
 dunst &                 # dunst for notifications
 #mpdupdate &
-(sleep 1s && ~/.config/polybar/launch.sh) &
 #conky &
-#nm-applet &
-picom --experimental-backends --inactive-opacity 1.00 --opacity-rule "80:class_g = 'URxvt'" --blur-background-exclude "class_g = 'slop'" -cCGfF -o 0.70 -O 0.028 -I 0.028 -t 0 -l 0 -r 7 -D2 -m 1.00 &
-#blueberry-tray &
+nm-applet &
+~/.config/polybar/launch.sh &
+#eww open bar &
+picom -b --config ~/.config/picom.conf &
 #xrandr --output LVDS1 --mode 1366x768 --output HDMI1 --mode 1920x1080 --right-of LVDS1 &
 /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
 #xwallpaper --no-randr /usr/share/backgrounds/magyarch/wallpaper.png &
-#sleep 5s && zathura ~/.local/share/Magyarch-xmonad.pdf &
-sleep 2s && notify-send 'Nyomja meg a Super+F1-et a használati utasításért.' -t 10000 &
+#(sleep 5s && zathura ~/.local/share/Magyarch-xmonad.pdf) &
+sleep 5s && notify-send 'Nyomja meg a Super+F1-et a használati utasításért.' -t 10000 &
 #trayer --edge top --align right \
 #    --SetDockType true --SetPartialStrut true --expand true \
 #    --width 5 --height 23 \
@@ -26,7 +28,9 @@ sleep 2s && notify-send 'Nyomja meg a Super+F1-et a használati utasításért.'
 #    --alpha 0 \
 #    --tint 0xc3cdc8 &
 #stalonetray &
-#xmodmap -e 'keycode 66 = Escape'
+#redshift -l 47.162495:19.503304 -t 6000:3600 -g 0.8 -m randr -v &
+udiskie &
+#change_background &
 
 
 
