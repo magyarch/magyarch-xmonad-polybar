@@ -14,6 +14,7 @@
   blue:       #6eaafb;
   mangenta:   #d886f3;
   cyan:       #6cdcf7;
+  purple:     #947cc3;
   emphasis:   #50536b;
   text:       #dfdfdf;
   text-alt:   #b2b2b2;
@@ -65,12 +66,12 @@ listview {
 element {
   padding: 5px;
   text-color: @text-alt;
-  highlight: bold #95ee8f; /* green */
+  highlight: bold #947cc3; /* green */
   border-radius: 3px;
 }
 
 element selected {
-  background-color: @green;
+  background-color: @purple;
   text-color: @text;
 }
 
